@@ -1,0 +1,18 @@
+services:
+  db:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    container_name: mssql
+    user: root
+    environment:
+        SA_PASSWORD: "***********"
+        ACCEPT_EULA: "Y"
+    ports:
+    - 1433:1433
+    volumes:
+    - ~/docker/sql/mssql/:/var/opt/mssql/
+    - ~/docker/sql/sqlserver/:/var/opt/sqlserver/
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "$$SA_PASSWORD" -Q "SELECT 1" || exit 1
+      interval: 30s
+      timeout: 30s
+      retries: 3
