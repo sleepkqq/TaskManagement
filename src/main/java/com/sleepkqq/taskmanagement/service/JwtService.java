@@ -34,8 +34,21 @@ public class JwtService {
                 .compact();
     }
 
-    public String getUsernameFromToken(String token) {
+    public String extractUsername(String token) {
         return Jwts.parser().decryptWith(getSecretKey()).build().parseEncryptedClaims(token).getPayload().getSubject();
+    }
+
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        var username = extractUsername(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    }
+
+    private boolean isTokenExpired(String token) {
+        return (long) extractClaim(token, "exp") > System.currentTimeMillis();
+    }
+
+    public Object extractClaim(String token, String claim) {
+        return Jwts.parser().decryptWith(getSecretKey()).build().parseEncryptedClaims(token).getPayload().get(claim);
     }
 
     private Password getSecretKey() {

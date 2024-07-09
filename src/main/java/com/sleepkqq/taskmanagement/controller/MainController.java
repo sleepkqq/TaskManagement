@@ -12,7 +12,8 @@ public class MainController {
 
     @GetMapping("/user")
     public String userAccess() {
-        return SecurityContextHolder.getContext().getAuthentication().getName() + " " + SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        return SecurityContextHolder.getContext().getAuthentication().getName()
+                + " " + SecurityContextHolder.getContext().getAuthentication().getAuthorities();
     }
 
 }

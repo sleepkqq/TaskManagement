@@ -22,7 +22,6 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public JwtAuthenticationResponse signUp(SignUpRequest request) {
-
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
@@ -42,8 +41,7 @@ public class AuthenticationService {
                 request.getPassword()
         ));
 
-        var user = userService
-                .loadUserByUsername(request.getUsername());
+        var user = userService.loadUserByUsername(request.getUsername());
 
         var jwt = jwtService.generateToken(user);
         return new JwtAuthenticationResponse(jwt);
