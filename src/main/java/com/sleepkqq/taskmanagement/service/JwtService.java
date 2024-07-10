@@ -18,14 +18,12 @@ public class JwtService {
     @Value("${token.expiration-millis}")
     private int lifetime;
 
-    public String generateToken(UserDetails userDetails) {
-        var user = (User) userDetails;
-
+    public String generateToken(User user) {
         var alg = Jwts.KEY.PBES2_HS512_A256KW;
         var enc = Jwts.ENC.A256GCM;
 
         return Jwts.builder()
-                .subject(userDetails.getUsername())
+                .subject(user.getUsername())
                 .claim("email", user.getEmail())
                 .claim("role", user.getRole().name())
                 .issuedAt(new Date())
@@ -47,7 +45,7 @@ public class JwtService {
         return (long) extractClaim(token, "exp") > System.currentTimeMillis();
     }
 
-    public Object extractClaim(String token, String claim) {
+    private Object extractClaim(String token, String claim) {
         return Jwts.parser().decryptWith(getSecretKey()).build().parseEncryptedClaims(token).getPayload().get(claim);
     }
 
