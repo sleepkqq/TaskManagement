@@ -10,7 +10,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.sleepkqq.taskmanagement.model.User;
-import com.sleepkqq.taskmanagement.model.Role;
+import com.sleepkqq.taskmanagement.model.enums.Role;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -26,7 +28,7 @@ public class AuthenticationService {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.ADMIN)
+                .roles(List.of(Role.USER, Role.ADMIN))
                 .build();
 
         userService.create(user);

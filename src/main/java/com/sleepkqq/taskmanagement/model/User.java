@@ -1,5 +1,6 @@
 package com.sleepkqq.taskmanagement.model;
 
+import com.sleepkqq.taskmanagement.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,11 +36,17 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private List<Role> roles;
+
+    @OneToMany(mappedBy = "assignee")
+    private List<Task> assignedTasks;
+
+    @OneToMany(mappedBy = "reporter")
+    private List<Task> reportedTasks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return roles.stream().map(role -> new SimpleGrantedAuthority(role.name())).toList();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.sleepkqq.taskmanagement.config;
 
-import com.sleepkqq.taskmanagement.model.Role;
+import com.sleepkqq.taskmanagement.model.enums.Role;
 import com.sleepkqq.taskmanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +54,8 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/secured/user").hasAuthority(Role.ADMIN.name())
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/api-docs/**").permitAll()
+                        .requestMatchers("/task/**").hasAuthority(Role.USER.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

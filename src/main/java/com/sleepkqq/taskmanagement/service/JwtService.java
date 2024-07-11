@@ -25,7 +25,7 @@ public class JwtService {
         return Jwts.builder()
                 .subject(user.getUsername())
                 .claim("email", user.getEmail())
-                .claim("role", user.getRole().name())
+                .claim("roles", user.getRoles().stream().map(Enum::name).toList())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + lifetime))
                 .encryptWith(getSecretKey(), alg, enc)
