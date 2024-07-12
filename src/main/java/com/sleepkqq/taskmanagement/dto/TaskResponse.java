@@ -4,12 +4,12 @@ import com.sleepkqq.taskmanagement.model.Task;
 
 import java.time.LocalDateTime;
 
-public record TaskCreateResponse(
+public record TaskResponse(
         Long id, String title, String description, String status, String priority,
         LocalDateTime createdDate, LocalDateTime updatedDate, LocalDateTime dueDate, String assignee, String reporter) {
 
-    public static TaskCreateResponse fromTask(Task task) {
-        return new TaskCreateResponse(
+    public static TaskResponse fromTask(Task task) {
+        return new TaskResponse(
                 task.getId(),
                 task.getTitle(),
                 task.getDescription(),

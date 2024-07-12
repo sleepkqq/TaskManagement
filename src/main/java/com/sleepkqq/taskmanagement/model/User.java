@@ -1,5 +1,6 @@
 package com.sleepkqq.taskmanagement.model;
 
+import com.sleepkqq.taskmanagement.model.converters.RoleListConverter;
 import com.sleepkqq.taskmanagement.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -35,7 +36,7 @@ public class User implements UserDetails {
     private String password;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = RoleListConverter.class)
     private List<Role> roles;
 
     @OneToMany(mappedBy = "assignee")

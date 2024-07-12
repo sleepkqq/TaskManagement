@@ -1,5 +1,6 @@
 package com.sleepkqq.taskmanagement.service;
 
+import com.sleepkqq.taskmanagement.dto.TaskResponse;
 import com.sleepkqq.taskmanagement.model.Task;
 import com.sleepkqq.taskmanagement.model.enums.TaskPriority;
 import com.sleepkqq.taskmanagement.model.enums.TaskStatus;
@@ -18,15 +19,20 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final UserService userService;
 
-    public List<Task> getAllTasks() {
-        return taskRepository.findAll();
+    public List<TaskResponse> getAllTasks() {
+        return convertTasks(taskRepository.findAll());
+    }
+
+    public List<TaskResponse> getUserAssignedTasks(String username) {
+        return convertTasks(userService.loadUserByUsername(username).getAssignedTasks());
+    }
+
+    public List<TaskResponse> getUserReportedTasks(String username) {
+        return convertTasks(userService.loadUserByUsername(username).getReportedTasks());
     }
 
     public Task createTask(String title, String description, String assignee, String reporter) {
         var timeNow = LocalDateTime.now();
-        var assigneeUser = userService.loadUserByUsername(assignee);
-        var reporterUser = userService.loadUserByUsername(reporter);
-
         var task = Task.builder()
                 .title(title)
                 .description(description)
@@ -34,16 +40,15 @@ public class TaskService {
                 .priority(TaskPriority.MEDIUM)
                 .createdDate(timeNow)
                 .updatedDate(timeNow)
-                .assignee(assigneeUser)
-                .reporter(reporterUser)
+                .assignee(userService.loadUserByUsername(assignee))
+                .reporter(userService.loadUserByUsername(reporter))
                 .build();
 
-        reporterUser.getReportedTasks().add(task);
-        assigneeUser.getAssignedTasks().add(task);
-        userService.save(reporterUser);
-        userService.save(assigneeUser);
-
         return taskRepository.save(task);
+    }
+
+    private List<TaskResponse> convertTasks(List<Task> tasks) {
+        return tasks.stream().map(TaskResponse::fromTask).toList();
     }
 
 }
