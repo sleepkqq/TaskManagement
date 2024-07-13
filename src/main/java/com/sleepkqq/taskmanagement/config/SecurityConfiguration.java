@@ -55,6 +55,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/swagger-resources/*", "/api-docs/**").permitAll()
+                        .requestMatchers("/task/create").hasAuthority(Role.ADMIN.name())
                         .requestMatchers("/task/**").hasAuthority(Role.USER.name())
                         .anyRequest().authenticated()
                 )

@@ -1,6 +1,7 @@
 package com.sleepkqq.taskmanagement.service;
 
 import com.sleepkqq.taskmanagement.model.User;
+import com.sleepkqq.taskmanagement.model.enums.Role;
 import com.sleepkqq.taskmanagement.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,25 @@ public class UserService implements UserDetailsService {
         }
 
         return save(user);
+    }
+
+    public User addAdminRole(String username) {
+        var user = loadUserByUsername(username);
+        if (!user.getRoles().contains(Role.ADMIN)) {
+            user.getRoles().add(Role.ADMIN);
+            save(user);
+        }
+        return user;
+    }
+
+    public User removeAdminRole(String username) {
+        var user = loadUserByUsername(username);
+        user.getRoles().removeIf(role -> role.equals(Role.ADMIN));
+        if (user.getRoles().isEmpty()) {
+            user.getRoles().add(Role.USER);
+        }
+        save(user);
+        return user;
     }
 
 }
