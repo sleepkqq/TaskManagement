@@ -1,4 +1,4 @@
-package com.sleepkqq.taskmanagement.dto;
+package com.sleepkqq.taskmanagement.dto.requests;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;

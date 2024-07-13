@@ -1,8 +1,8 @@
 package com.sleepkqq.taskmanagement.controller;
 
-import com.sleepkqq.taskmanagement.dto.JwtAuthenticationResponse;
-import com.sleepkqq.taskmanagement.dto.SignInRequest;
-import com.sleepkqq.taskmanagement.dto.SignUpRequest;
+import com.sleepkqq.taskmanagement.dto.responses.AuthenticationResponse;
+import com.sleepkqq.taskmanagement.dto.requests.SignInRequest;
+import com.sleepkqq.taskmanagement.dto.requests.SignUpRequest;
 import com.sleepkqq.taskmanagement.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -22,13 +22,13 @@ public class AuthenticationController {
 
     @Operation(summary = "User Registration")
     @PostMapping("/sign-up")
-    public JwtAuthenticationResponse signUp(@RequestBody @Valid SignUpRequest request) {
+    public AuthenticationResponse signUp(@RequestBody @Valid SignUpRequest request) {
         return authenticationService.signUp(request);
     }
 
     @Operation(summary = "User Authorization")
     @PostMapping("/sign-in")
-    public JwtAuthenticationResponse signIn(@RequestBody @Valid SignInRequest request) {
+    public AuthenticationResponse signIn(@RequestBody @Valid SignInRequest request) {
         return authenticationService.signIn(request);
     }
 

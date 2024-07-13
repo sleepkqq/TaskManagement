@@ -1,6 +1,6 @@
 package com.sleepkqq.taskmanagement.service;
 
-import com.sleepkqq.taskmanagement.dto.TaskResponse;
+import com.sleepkqq.taskmanagement.dto.responses.TaskResponse;
 import com.sleepkqq.taskmanagement.model.Task;
 import com.sleepkqq.taskmanagement.model.enums.TaskPriority;
 import com.sleepkqq.taskmanagement.model.enums.TaskStatus;

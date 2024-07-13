@@ -1,7 +1,7 @@
 package com.sleepkqq.taskmanagement.controller;
 
-import com.sleepkqq.taskmanagement.dto.TaskCreateRequest;
-import com.sleepkqq.taskmanagement.dto.TaskResponse;
+import com.sleepkqq.taskmanagement.dto.requests.TaskCreateRequest;
+import com.sleepkqq.taskmanagement.dto.responses.TaskResponse;
 import com.sleepkqq.taskmanagement.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

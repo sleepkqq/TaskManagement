@@ -1,4 +1,4 @@
-package com.sleepkqq.taskmanagement.dto;
+package com.sleepkqq.taskmanagement.dto.responses;
 
 import com.sleepkqq.taskmanagement.model.Task;
 
