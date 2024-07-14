@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -13,15 +14,17 @@ import org.springframework.stereotype.Component;
 public class LoggingAspect {
 
     @Before("execution(* com.sleepkqq.taskmanagement.service..*(..))")
-    public void logBeforeMethodExecution(JoinPoint joinPoint) {
+    public void servicesMethodsAdvice(JoinPoint joinPoint) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        var username = "anonymous";
         if (authentication != null && authentication.isAuthenticated()) {
-            username = authentication.getName();
+            var methodName = joinPoint.getSignature().getName();
+            var className = joinPoint.getTarget().getClass().getSimpleName();
+
+            if (!(authentication instanceof AnonymousAuthenticationToken)) {
+                var username = authentication.getName();
+                log.info("Method '{}' in class '{}' is called by user '{}'", methodName, className, username);
+            }
         }
-        var methodName = joinPoint.getSignature().getName();
-        var className = joinPoint.getTarget().getClass().getSimpleName();
-        log.info("Method '{}' in class '{}' is called by user '{}'", methodName, className, username);
     }
 
 }

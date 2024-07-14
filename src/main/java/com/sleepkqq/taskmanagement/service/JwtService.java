@@ -5,8 +5,8 @@ import com.sleepkqq.taskmanagement.model.User;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -14,6 +14,7 @@ import java.util.Date;
 
 import static com.sleepkqq.taskmanagement.model.enums.SecurityProperties.BEARER_TYPE;
 
+@Slf4j
 @Service
 public class JwtService {
 
@@ -42,19 +43,6 @@ public class JwtService {
 
     public String extractUsername(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getSubject();
-    }
-
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        var username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
-    }
-
-    private boolean isTokenExpired(String token) {
-        return (long) extractClaim(token, "exp") > System.currentTimeMillis();
-    }
-
-    private Object extractClaim(String token, String claim) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get(claim);
     }
 
 }

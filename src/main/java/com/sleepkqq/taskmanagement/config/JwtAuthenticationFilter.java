@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import static com.sleepkqq.taskmanagement.model.enums.SecurityProperties.AUTHORIZATION_HEADER;
 import static com.sleepkqq.taskmanagement.model.enums.SecurityProperties.BEARER_PREFIX;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -36,20 +38,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        var jwt = authHeader.substring(BEARER_PREFIX.value().length());
-        var username = jwtService.extractUsername(jwt);
+        try {
+            var jwt = authHeader.substring(BEARER_PREFIX.value().length());
 
-        if (StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
-            var user = userService.loadUserByUsername(username);
+            var username  = jwtService.extractUsername(jwt);
 
-            if (jwtService.isTokenValid(jwt, user)) {
+            if (SecurityContextHolder.getContext().getAuthentication() == null) {
+                var user = userService.loadUserByUsername(username);
+
                 var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
-
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        }
 
-        filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
+        }
     }
 }
