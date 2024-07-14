@@ -16,14 +16,13 @@ public class LoggingAspect {
     @Before("execution(* com.sleepkqq.taskmanagement.service..*(..))")
     public void servicesMethodsAdvice(JoinPoint joinPoint) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
+
+        if (authentication != null && authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)) {
             var methodName = joinPoint.getSignature().getName();
             var className = joinPoint.getTarget().getClass().getSimpleName();
+            var username = authentication.getName();
 
-            if (!(authentication instanceof AnonymousAuthenticationToken)) {
-                var username = authentication.getName();
-                log.info("Method '{}' in class '{}' is called by user '{}'", methodName, className, username);
-            }
+            log.info("Method '{}' in class '{}' is called by user '{}'", methodName, className, username);
         }
     }
 
