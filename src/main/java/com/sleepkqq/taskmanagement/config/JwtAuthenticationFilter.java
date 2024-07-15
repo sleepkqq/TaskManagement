@@ -19,8 +19,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-import static com.sleepkqq.taskmanagement.model.enums.SecurityProperties.AUTHORIZATION_HEADER;
-import static com.sleepkqq.taskmanagement.model.enums.SecurityProperties.BEARER_PREFIX;
+import static com.sleepkqq.taskmanagement.constants.SecurityProperties.AUTHORIZATION_HEADER;
+import static com.sleepkqq.taskmanagement.constants.SecurityProperties.BEARER_PREFIX;
 
 @Slf4j
 @Component
@@ -32,14 +32,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
-        var authHeader = request.getHeader(AUTHORIZATION_HEADER.value());
-        if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, BEARER_PREFIX.value())) {
+        var authHeader = request.getHeader(AUTHORIZATION_HEADER);
+        if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, BEARER_PREFIX)) {
             filterChain.doFilter(request, response);
             return;
         }
 
         try {
-            var jwt = authHeader.substring(BEARER_PREFIX.value().length());
+            var jwt = authHeader.substring(BEARER_PREFIX.length());
 
             var username  = jwtService.extractUsername(jwt);
 

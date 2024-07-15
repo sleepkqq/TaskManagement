@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,14 +23,16 @@ public class AuthenticationController {
 
     @Operation(summary = "User Registration")
     @PostMapping("/sign-up")
-    public AuthenticationResponse signUp(@RequestBody @Valid SignUpRequest request) {
-        return authenticationService.signUp(request);
+    public ResponseEntity<AuthenticationResponse> signUp(@RequestBody @Valid SignUpRequest request) {
+        var authResponse = authenticationService.signUp(request);
+        return ResponseEntity.ok(authResponse);
     }
 
     @Operation(summary = "User Authorization")
     @PostMapping("/sign-in")
-    public AuthenticationResponse signIn(@RequestBody @Valid SignInRequest request) {
-        return authenticationService.signIn(request);
+    public ResponseEntity<AuthenticationResponse> signIn(@RequestBody @Valid SignInRequest request) {
+        var authResponse = authenticationService.signIn(request);
+        return ResponseEntity.ok(authResponse);
     }
 
 }

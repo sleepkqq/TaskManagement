@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
 import java.util.Date;
 
-import static com.sleepkqq.taskmanagement.model.enums.SecurityProperties.BEARER_TYPE;
+import static com.sleepkqq.taskmanagement.constants.SecurityProperties.BEARER_TYPE;
 
 @Slf4j
 @Service
@@ -38,7 +38,7 @@ public class JwtService {
                 .expiration(new Date(System.currentTimeMillis() + lifetime))
                 .signWith(secretKey)
                 .compact();
-        return new AuthenticationResponse(token, lifetime / 1000, BEARER_TYPE.value());
+        return new AuthenticationResponse(token, lifetime / 1000, BEARER_TYPE);
     }
 
     public String extractUsername(String token) {

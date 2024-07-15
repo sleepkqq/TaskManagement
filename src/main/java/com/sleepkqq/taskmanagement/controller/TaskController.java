@@ -2,6 +2,8 @@ package com.sleepkqq.taskmanagement.controller;
 
 import com.sleepkqq.taskmanagement.dto.requests.TaskCreateRequest;
 import com.sleepkqq.taskmanagement.dto.responses.TaskResponse;
+import com.sleepkqq.taskmanagement.model.enums.TaskPriority;
+import com.sleepkqq.taskmanagement.model.enums.TaskStatus;
 import com.sleepkqq.taskmanagement.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,21 +19,6 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    @GetMapping("/read-all")
-    public List<TaskResponse> getAllTasks() {
-        return taskService.getAllTasks();
-    }
-
-    @GetMapping("/read-assigned/{username}")
-    public List<TaskResponse> getUserAssignedTasks(@PathVariable String username) {
-        return taskService.getUserAssignedTasks(username);
-    }
-
-    @GetMapping("/read-reported/{username}")
-    public List<TaskResponse> getUserReportedTasks(@PathVariable String username) {
-        return taskService.getUserReportedTasks(username);
-    }
-
     @PostMapping("/create")
     public ResponseEntity<TaskResponse> createTask(@RequestBody TaskCreateRequest request) {
         var createdTask = taskService.createTask(
@@ -41,6 +28,30 @@ public class TaskController {
                 request.reporter()
         );
         return ResponseEntity.status(201).body(TaskResponse.fromTask(createdTask));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TaskResponse> getTask(@PathVariable long id) {
+        var task = taskService.getTask(id);
+        return ResponseEntity.ok(task);
+    }
+
+    @GetMapping("/get-all")
+    public ResponseEntity<List<TaskResponse>> getAllTasks() {
+        var tasks = taskService.getAllTasks();
+        return ResponseEntity.ok(tasks);
+    }
+
+    @GetMapping("/get-by-status/{status}")
+    public ResponseEntity<List<TaskResponse>> getTasksByStatus(@PathVariable TaskStatus status) {
+        var tasks = taskService.getTasksByStatus(status);
+        return ResponseEntity.ok(tasks);
+    }
+
+    @GetMapping("/get-by-priority/{priority}")
+    public ResponseEntity<List<TaskResponse>> getTasksByStatus(@PathVariable TaskPriority priority) {
+        var tasks = taskService.getTasksByPriority(priority);
+        return ResponseEntity.ok(tasks);
     }
 
 }

@@ -1,13 +1,17 @@
 package com.sleepkqq.taskmanagement.service;
 
+import com.sleepkqq.taskmanagement.dto.responses.TaskResponse;
 import com.sleepkqq.taskmanagement.model.User;
 import com.sleepkqq.taskmanagement.model.enums.Role;
 import com.sleepkqq.taskmanagement.repository.UserRepository;
+import com.sleepkqq.taskmanagement.utils.TaskUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -54,6 +58,14 @@ public class UserService implements UserDetailsService {
         }
         save(user);
         return user;
+    }
+
+    public List<TaskResponse> getUserAssignedTasks(String username) {
+        return TaskUtils.convertTasks(loadUserByUsername(username).getAssignedTasks());
+    }
+
+    public List<TaskResponse> getUserReportedTasks(String username) {
+        return TaskUtils.convertTasks(loadUserByUsername(username).getReportedTasks());
     }
 
 }

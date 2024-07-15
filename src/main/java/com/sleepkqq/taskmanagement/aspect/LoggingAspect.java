@@ -1,4 +1,4 @@
-package com.sleepkqq.taskmanagement.aspects;
+package com.sleepkqq.taskmanagement.aspect;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
