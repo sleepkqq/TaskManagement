@@ -35,12 +35,12 @@ public class UserController {
         return ResponseEntity.ok(UserResponse.fromUser(user));
     }
 
-    @GetMapping("/read-assigned/{username}")
+    @GetMapping("/{username}/read-assigned-tasks")
     public List<TaskResponse> getUserAssignedTasks(@PathVariable String username) {
         return userService.getUserAssignedTasks(username);
     }
 
-    @GetMapping("/read-reported/{username}")
+    @GetMapping("/{username}/read-reported-tasks")
     public List<TaskResponse> getUserReportedTasks(@PathVariable String username) {
         return userService.getUserReportedTasks(username);
     }

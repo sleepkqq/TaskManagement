@@ -36,19 +36,19 @@ public class TaskController {
         return ResponseEntity.ok(task);
     }
 
-    @GetMapping("/get-all")
+    @GetMapping("/read-all")
     public ResponseEntity<List<TaskResponse>> getAllTasks() {
         var tasks = taskService.getAllTasks();
         return ResponseEntity.ok(tasks);
     }
 
-    @GetMapping("/get-by-status/{status}")
+    @GetMapping("/read-by-status/{status}")
     public ResponseEntity<List<TaskResponse>> getTasksByStatus(@PathVariable TaskStatus status) {
         var tasks = taskService.getTasksByStatus(status);
         return ResponseEntity.ok(tasks);
     }
 
-    @GetMapping("/get-by-priority/{priority}")
+    @GetMapping("/read-by-priority/{priority}")
     public ResponseEntity<List<TaskResponse>> getTasksByStatus(@PathVariable TaskPriority priority) {
         var tasks = taskService.getTasksByPriority(priority);
         return ResponseEntity.ok(tasks);
