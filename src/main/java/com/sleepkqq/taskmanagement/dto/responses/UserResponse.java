@@ -2,10 +2,24 @@ package com.sleepkqq.taskmanagement.dto.responses;
 
 import com.sleepkqq.taskmanagement.model.Task;
 import com.sleepkqq.taskmanagement.model.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
-public record UserResponse(long id, String username, String email, List<String> roles, List<Long> assignedTasks, List<Long> reportedTasks) {
+@Schema(description = "User Response")
+public record UserResponse(
+        @Schema(description = "User ID", example = "1")
+        long id,
+        @Schema(description = "Username", example = "johndoe")
+        String username,
+        @Schema(description = "Email address", example = "johndoe@example.com")
+        String email,
+        @Schema(description = "List of user roles", example = "[\"ADMIN\", \"USER\"]")
+        List<String> roles,
+        @Schema(description = "List of assigned task IDs", example = "[1, 2, 3]")
+        List<Long> assignedTasks,
+        @Schema(description = "List of reported task IDs", example = "[4, 5, 6]")
+        List<Long> reportedTasks) {
 
     public static UserResponse fromUser(User user) {
         return new UserResponse(
