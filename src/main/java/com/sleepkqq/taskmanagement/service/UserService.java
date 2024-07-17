@@ -41,6 +41,10 @@ public class UserService implements UserDetailsService {
         return save(user);
     }
 
+    public void deleteByUsername(String username) {
+        userRepository.deleteByUsername(username);
+    }
+
     public User addAdminRole(String username) {
         var user = loadUserByUsername(username);
         if (!user.getRoles().contains(Role.ADMIN)) {

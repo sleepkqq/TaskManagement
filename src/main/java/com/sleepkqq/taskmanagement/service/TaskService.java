@@ -42,6 +42,10 @@ public class TaskService {
                 .orElseThrow(() -> new NoSuchElementException("Task '" + id + "' not found")));
     }
 
+    public void deleteTask(long id) {
+        taskRepository.deleteById(id);
+    }
+
     public List<TaskResponse> getAllTasks() {
         return TaskUtils.convertTasks(taskRepository.findAll());
     }

@@ -25,6 +25,13 @@ public class UserController {
         return ResponseEntity.ok(UserResponse.fromUser(user));
     }
 
+    @Operation(summary = "Delete user by username")
+    @DeleteMapping("/{username}")
+    public ResponseEntity<Void> deleteUserByUsername(@PathVariable String username) {
+        userService.deleteByUsername(username);
+        return ResponseEntity.noContent().build();
+    }
+
     @Operation(summary = "Add admin role to user")
     @PostMapping("/{username}/add-admin")
     public ResponseEntity<UserResponse> addAdminRole(@PathVariable String username) {

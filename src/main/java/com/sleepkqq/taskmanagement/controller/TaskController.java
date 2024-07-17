@@ -40,6 +40,13 @@ public class TaskController {
         return ResponseEntity.ok(task);
     }
 
+    @Operation(summary = "Delete task by ID")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TaskResponse> deleteTask(@PathVariable long id) {
+        taskService.deleteTask(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @Operation(summary = "Get all tasks")
     @GetMapping("/read-all")
     public ResponseEntity<List<TaskResponse>> getAllTasks() {
