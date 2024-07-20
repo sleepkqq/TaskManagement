@@ -30,12 +30,14 @@ public class UserService implements UserDetailsService {
     }
 
     public User create(User user) {
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new IllegalArgumentException("Пользователь с таким именем уже существует");
+        var username = user.getUsername();
+        if (userRepository.existsByUsername(username)) {
+            throw new IllegalArgumentException("User with username '" + username + "' already exists");
         }
 
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new IllegalArgumentException("Пользователь с таким email уже существует");
+        var email = user.getEmail();
+        if (userRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("User with email '" + email + "' already exists");
         }
 
         return save(user);
