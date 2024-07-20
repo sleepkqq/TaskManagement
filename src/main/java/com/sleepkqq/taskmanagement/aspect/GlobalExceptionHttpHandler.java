@@ -1,7 +1,6 @@
-package com.sleepkqq.taskmanagement.exception;
+package com.sleepkqq.taskmanagement.aspect;
 
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,9 +16,8 @@ import java.util.NoSuchElementException;
 
 import static com.sleepkqq.taskmanagement.constants.ExceptionResponseProperties.*;
 
-@Slf4j
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHttpHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleExceptions(Exception ex, HttpServletRequest request) {
@@ -60,7 +58,6 @@ public class GlobalExceptionHandler {
         errorResponse.put(ERROR, status.getReasonPhrase());
         errorResponse.put(PATH, request.getRequestURI());
 
-        log.error("{}: {}", ex.getClass().getSimpleName(), ex.getMessage());
         return new ResponseEntity<>(errorResponse, status);
     }
 
