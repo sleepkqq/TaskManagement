@@ -6,11 +6,11 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.3.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>com.sleepkqq</groupId>
     <artifactId>task-management</artifactId>
-    <version>1.6.4-SNAPSHOT</version>
+    <version>1.7.0-SNAPSHOT</version>
     <name>task-management</name>
     <description>task-management</description>
     <url/>

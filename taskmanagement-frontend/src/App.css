@@ -1,0 +1,9 @@
+.layout {
+  min-height: 100vh;
+}
+
+.site-layout-content {
+  background: #fff;
+  padding: 24px;
+  margin: 24px 0;
+}

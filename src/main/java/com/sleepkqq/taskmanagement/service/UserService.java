@@ -1,6 +1,7 @@
 package com.sleepkqq.taskmanagement.service;
 
 import com.sleepkqq.taskmanagement.dto.responses.TaskResponse;
+import com.sleepkqq.taskmanagement.dto.responses.UserResponse;
 import com.sleepkqq.taskmanagement.model.User;
 import com.sleepkqq.taskmanagement.model.enums.Role;
 import com.sleepkqq.taskmanagement.repository.UserRepository;
@@ -23,6 +24,10 @@ public class UserService implements UserDetailsService {
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User '" + username + "' not found"));
+    }
+
+    public List<UserResponse> getAllUsers() {
+        return userRepository.findAll().stream().map(UserResponse::fromUser).toList();
     }
 
     public User save(User user) {
