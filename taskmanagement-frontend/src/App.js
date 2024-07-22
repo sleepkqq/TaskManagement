@@ -8,6 +8,7 @@ import TaskDetail from './pages/TaskDetail';
 import UserTasks from './pages/UserTasks';
 import TaskList from './pages/TaskList';
 import UserList from './pages/UserList';
+import UserDetail from './pages/UserDetail';
 
 const App = () => {
     return (
@@ -17,10 +18,11 @@ const App = () => {
                     <Route path="/" element={<Home />} />
                     <Route path="/sign-in" element={<SignIn />} />
                     <Route path="/sign-up" element={<SignUp />} />
-                    <Route path="/task/:id" element={<TaskDetail />} />
-                    <Route path="/user/:username/tasks" element={<UserTasks />} />
+                    <Route path="/tasks/:id" element={<TaskDetail />} />
+                    <Route path="/users/:username/tasks" element={<UserTasks />} />
                     <Route path="/tasks" element={<TaskList />} />
                     <Route path="/users" element={<UserList />} />
+                    <Route path="/users/:username" element={<UserDetail />} />
                 </Routes>
             </AppLayout>
         </Router>

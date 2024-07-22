@@ -38,7 +38,7 @@ const UserTasks = () => {
                 renderItem={(task) => (
                     <List.Item>
                         <List.Item.Meta
-                            title={<a href={`/task/${task.id}`}>{task.title}</a>}
+                            title={<a href={`/tasks/${task.id}`}>{task.title}</a>}
                             description={task.description}
                         />
                     </List.Item>
@@ -52,7 +52,7 @@ const UserTasks = () => {
                 renderItem={(task) => (
                     <List.Item>
                         <List.Item.Meta
-                            title={<a href={`/task/${task.id}`}>{task.title}</a>}
+                            title={<a href={`/tasks/${task.id}`}>{task.title}</a>}
                             description={task.description}
                         />
                     </List.Item>

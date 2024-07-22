@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.sleepkqq</groupId>
     <artifactId>task-management</artifactId>
-    <version>1.7.2-SNAPSHOT</version>
+    <version>1.7.3-SNAPSHOT</version>
     <name>task-management</name>
     <description>task-management</description>
     <url/>

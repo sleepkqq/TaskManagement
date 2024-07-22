@@ -42,6 +42,5 @@ public record TaskCreateRequest(
 
         @Schema(description = "Due date of the task", example = "2024-12-31T23:59:59")
         @FutureOrPresent(message = "Due date must be in the future or present")
-        @NotBlank(message = "Due Date cannot be null")
         LocalDateTime dueDate) {
 }

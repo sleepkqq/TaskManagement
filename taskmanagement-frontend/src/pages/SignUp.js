@@ -1,25 +1,23 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Alert } from 'antd';
 import { signUp } from '../api/auth';
+import { setAuthToken } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
 
     const onFinish = async (values) => {
         setLoading(true);
         setError(null);
         try {
-            await signUp(values);
-            setSuccess(true);
-            setTimeout(() => {
-                navigate('/sign-in');
-            }, 2000);
+            const response = await signUp(values);
+            setAuthToken(response.data.accessToken, response.data.accessExpiresIn);
+            navigate('/');
         } catch (err) {
-            setError('Failed to create account');
+            setError('Invalid username or password');
         } finally {
             setLoading(false);
         }
@@ -29,7 +27,6 @@ const SignUp = () => {
         <div>
             <h1>Sign Up</h1>
             {error && <Alert message={error} type="error" showIcon />}
-            {success && <Alert message="Account created successfully! Redirecting to sign in..." type="success" showIcon />}
             <Form layout="vertical" onFinish={onFinish}>
                 <Form.Item name="username" label="Username" rules={[{ required: true, message: 'Please input your username!' }]}>
                     <Input />

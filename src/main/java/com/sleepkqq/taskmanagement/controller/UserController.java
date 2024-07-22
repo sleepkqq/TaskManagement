@@ -55,14 +55,14 @@ public class UserController {
 
     @Operation(summary = "Get assigned tasks for user")
     @GetMapping("/{username}/read-assigned-tasks")
-    public List<TaskResponse> getUserAssignedTasks(@PathVariable String username) {
-        return userService.getUserAssignedTasks(username);
+    public ResponseEntity<List<TaskResponse>> getUserAssignedTasks(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserAssignedTasks(username));
     }
 
     @Operation(summary = "Get reported tasks for user")
     @GetMapping("/{username}/read-reported-tasks")
-    public List<TaskResponse> getUserReportedTasks(@PathVariable String username) {
-        return userService.getUserReportedTasks(username);
+    public ResponseEntity<List<TaskResponse>> getUserReportedTasks(@PathVariable String username) {
+        return ResponseEntity.ok(userService.getUserReportedTasks(username));
     }
 
 }

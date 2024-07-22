@@ -21,15 +21,17 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final UserService userService;
 
-    public Task createTask(String title, String description, String assignee, String reporter) {
+    public Task createTask(String title, String description, TaskStatus status, TaskPriority priority,
+                           LocalDateTime dueTime, String assignee, String reporter) {
         var timeNow = LocalDateTime.now();
         var task = Task.builder()
                 .title(title)
                 .description(description)
-                .status(TaskStatus.TO_DO)
-                .priority(TaskPriority.MEDIUM)
+                .status(status)
+                .priority(priority)
                 .createdDate(timeNow)
                 .updatedDate(timeNow)
+                .dueDate(dueTime)
                 .assignee(userService.loadUserByUsername(assignee))
                 .reporter(userService.loadUserByUsername(reporter))
                 .build();

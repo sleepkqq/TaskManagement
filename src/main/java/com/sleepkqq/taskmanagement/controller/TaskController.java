@@ -27,6 +27,9 @@ public class TaskController {
         var createdTask = taskService.createTask(
                 request.title(),
                 request.description(),
+                request.status(),
+                request.priority(),
+                request.dueDate(),
                 request.assignee(),
                 request.reporter()
         );

@@ -14,7 +14,7 @@ const SignIn = () => {
         setError(null);
         try {
             const response = await signIn(values);
-            setAuthToken(response.data.accessToken);
+            setAuthToken(response.data.accessToken, response.data.accessExpiresIn);
             navigate('/');
         } catch (err) {
             setError('Invalid username or password');
