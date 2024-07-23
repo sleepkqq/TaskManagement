@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @RequestMapping("/task")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -33,14 +35,13 @@ public class TaskController {
                 request.assignee(),
                 request.reporter()
         );
-        return ResponseEntity.status(201).body(TaskResponse.fromTask(createdTask));
+        return ResponseEntity.status(CREATED).body(TaskResponse.fromTask(createdTask));
     }
 
     @Operation(summary = "Get task by ID")
     @GetMapping("/{id}")
     public ResponseEntity<TaskResponse> getTask(@PathVariable long id) {
-        var task = taskService.getTask(id);
-        return ResponseEntity.ok(task);
+        return ResponseEntity.ok(taskService.getTask(id));
     }
 
     @Operation(summary = "Delete task by ID")
@@ -53,22 +54,19 @@ public class TaskController {
     @Operation(summary = "Get all tasks")
     @GetMapping("/read-all")
     public ResponseEntity<List<TaskResponse>> getAllTasks() {
-        var tasks = taskService.getAllTasks();
-        return ResponseEntity.ok(tasks);
+        return ResponseEntity.ok(taskService.getAllTasks());
     }
 
     @Operation(summary = "Get tasks by status")
     @GetMapping("/read-by-status/{status}")
     public ResponseEntity<List<TaskResponse>> getTasksByStatus(@PathVariable TaskStatus status) {
-        var tasks = taskService.getTasksByStatus(status);
-        return ResponseEntity.ok(tasks);
+        return ResponseEntity.ok(taskService.getTasksByStatus(status));
     }
 
     @Operation(summary = "Get tasks by priority")
     @GetMapping("/read-by-priority/{priority}")
     public ResponseEntity<List<TaskResponse>> getTasksByStatus(@PathVariable TaskPriority priority) {
-        var tasks = taskService.getTasksByPriority(priority);
-        return ResponseEntity.ok(tasks);
+        return ResponseEntity.ok(taskService.getTasksByPriority(priority));
     }
 
 }

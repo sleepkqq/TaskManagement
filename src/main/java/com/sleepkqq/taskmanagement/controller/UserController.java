@@ -28,8 +28,7 @@ public class UserController {
     @Operation(summary = "Get all users")
     @GetMapping("/all/read")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
-        var tasks = userService.getAllUsers();
-        return ResponseEntity.ok(tasks);
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @Operation(summary = "Delete user by username")

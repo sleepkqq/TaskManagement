@@ -24,15 +24,13 @@ public class AuthenticationController {
     @Operation(summary = "User Registration")
     @PostMapping("/sign-up")
     public ResponseEntity<AuthenticationResponse> signUp(@RequestBody @Valid SignUpRequest request) {
-        var authResponse = authenticationService.signUp(request);
-        return ResponseEntity.ok(authResponse);
+        return ResponseEntity.ok(authenticationService.signUp(request));
     }
 
     @Operation(summary = "User Authorization")
     @PostMapping("/sign-in")
     public ResponseEntity<AuthenticationResponse> signIn(@RequestBody @Valid SignInRequest request) {
-        var authResponse = authenticationService.signIn(request);
-        return ResponseEntity.ok(authResponse);
+        return ResponseEntity.ok(authenticationService.signIn(request));
     }
 
 }
