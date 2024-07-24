@@ -1,7 +1,5 @@
 package com.sleepkqq.taskmanagement.service;
 
-import com.sleepkqq.taskmanagement.dto.requests.SignInRequest;
-import com.sleepkqq.taskmanagement.dto.requests.SignUpRequest;
 import com.sleepkqq.taskmanagement.dto.responses.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +21,11 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse signUp(SignUpRequest request) {
+    public AuthenticationResponse signUp(String username, String email, String password) {
         var user = User.builder()
-                .username(request.username())
-                .email(request.email())
-                .password(passwordEncoder.encode(request.password()))
+                .username(username)
+                .email(email)
+                .password(passwordEncoder.encode(password))
                 .roles(List.of(Role.USER, Role.ADMIN))
                 .build();
 
@@ -36,13 +34,10 @@ public class AuthenticationService {
         return jwtService.generateToken(user);
     }
 
-    public AuthenticationResponse signIn(SignInRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                request.username(),
-                request.password()
-        ));
+    public AuthenticationResponse signIn(String username, String password) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
-        var user = userService.loadUserByUsername(request.username());
+        var user = userService.loadUserByUsername(username);
 
         return jwtService.generateToken(user);
     }

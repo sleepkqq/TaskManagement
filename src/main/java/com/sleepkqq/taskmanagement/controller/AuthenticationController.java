@@ -24,13 +24,13 @@ public class AuthenticationController {
     @Operation(summary = "User Registration")
     @PostMapping("/sign-up")
     public ResponseEntity<AuthenticationResponse> signUp(@RequestBody @Valid SignUpRequest request) {
-        return ResponseEntity.ok(authenticationService.signUp(request));
+        return ResponseEntity.ok(authenticationService.signUp(request.username(), request.email(), request.password()));
     }
 
     @Operation(summary = "User Authorization")
     @PostMapping("/sign-in")
     public ResponseEntity<AuthenticationResponse> signIn(@RequestBody @Valid SignInRequest request) {
-        return ResponseEntity.ok(authenticationService.signIn(request));
+        return ResponseEntity.ok(authenticationService.signIn(request.username(), request.password()));
     }
 
 }

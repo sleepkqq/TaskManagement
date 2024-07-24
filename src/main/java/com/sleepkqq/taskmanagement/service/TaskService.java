@@ -1,11 +1,9 @@
 package com.sleepkqq.taskmanagement.service;
 
-import com.sleepkqq.taskmanagement.dto.responses.TaskResponse;
 import com.sleepkqq.taskmanagement.model.Task;
 import com.sleepkqq.taskmanagement.model.enums.TaskPriority;
 import com.sleepkqq.taskmanagement.model.enums.TaskStatus;
 import com.sleepkqq.taskmanagement.repository.TaskRepository;
-import com.sleepkqq.taskmanagement.utils.TaskUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,25 +37,25 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
-    public TaskResponse getTask(long id) {
-        return TaskResponse.fromTask(taskRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Task '" + id + "' not found")));
+    public Task getTask(long id) {
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Task '" + id + "' not found"));
+    }
+
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
     }
 
     public void deleteTask(long id) {
         taskRepository.deleteById(id);
     }
 
-    public List<TaskResponse> getAllTasks() {
-        return TaskUtils.convertTasks(taskRepository.findAll());
+    public List<Task> getTasksByStatus(TaskStatus status) {
+        return taskRepository.findByStatus(status);
     }
 
-    public List<TaskResponse> getTasksByStatus(TaskStatus status) {
-        return TaskUtils.convertTasks(taskRepository.findByStatus(status));
-    }
-
-    public List<TaskResponse> getTasksByPriority(TaskPriority priority) {
-        return TaskUtils.convertTasks(taskRepository.findByPriority(priority));
+    public List<Task> getTasksByPriority(TaskPriority priority) {
+        return taskRepository.findByPriority(priority);
     }
 
 }

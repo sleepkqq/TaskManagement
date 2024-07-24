@@ -1,11 +1,9 @@
 package com.sleepkqq.taskmanagement.service;
 
-import com.sleepkqq.taskmanagement.dto.responses.TaskResponse;
-import com.sleepkqq.taskmanagement.dto.responses.UserResponse;
+import com.sleepkqq.taskmanagement.model.Task;
 import com.sleepkqq.taskmanagement.model.User;
 import com.sleepkqq.taskmanagement.model.enums.Role;
 import com.sleepkqq.taskmanagement.repository.UserRepository;
-import com.sleepkqq.taskmanagement.utils.TaskUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -26,8 +24,8 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User '" + username + "' not found"));
     }
 
-    public List<UserResponse> getAllUsers() {
-        return userRepository.findAll().stream().map(UserResponse::fromUser).toList();
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 
     public User save(User user) {
@@ -71,12 +69,12 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public List<TaskResponse> getUserAssignedTasks(String username) {
-        return TaskUtils.convertTasks(loadUserByUsername(username).getAssignedTasks());
+    public List<Task> getUserAssignedTasks(String username) {
+        return loadUserByUsername(username).getAssignedTasks();
     }
 
-    public List<TaskResponse> getUserReportedTasks(String username) {
-        return TaskUtils.convertTasks(loadUserByUsername(username).getReportedTasks());
+    public List<Task> getUserReportedTasks(String username) {
+        return loadUserByUsername(username).getReportedTasks();
     }
 
 }

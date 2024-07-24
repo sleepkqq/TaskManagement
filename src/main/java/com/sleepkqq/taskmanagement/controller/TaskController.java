@@ -5,6 +5,7 @@ import com.sleepkqq.taskmanagement.dto.responses.TaskResponse;
 import com.sleepkqq.taskmanagement.model.enums.TaskPriority;
 import com.sleepkqq.taskmanagement.model.enums.TaskStatus;
 import com.sleepkqq.taskmanagement.service.TaskService;
+import com.sleepkqq.taskmanagement.utils.TaskUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,13 @@ public class TaskController {
     @Operation(summary = "Get task by ID")
     @GetMapping("/{id}")
     public ResponseEntity<TaskResponse> getTask(@PathVariable long id) {
-        return ResponseEntity.ok(taskService.getTask(id));
+        return ResponseEntity.ok(TaskResponse.fromTask(taskService.getTask(id)));
+    }
+
+    @Operation(summary = "Get all tasks")
+    @GetMapping("/get/all")
+    public ResponseEntity<List<TaskResponse>> getAllTasks() {
+        return ResponseEntity.ok(TaskUtils.convertTasksToResponse(taskService.getAllTasks()));
     }
 
     @Operation(summary = "Delete task by ID")
@@ -51,22 +58,16 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Get all tasks")
-    @GetMapping("/read-all")
-    public ResponseEntity<List<TaskResponse>> getAllTasks() {
-        return ResponseEntity.ok(taskService.getAllTasks());
-    }
-
     @Operation(summary = "Get tasks by status")
     @GetMapping("/read-by-status/{status}")
     public ResponseEntity<List<TaskResponse>> getTasksByStatus(@PathVariable TaskStatus status) {
-        return ResponseEntity.ok(taskService.getTasksByStatus(status));
+        return ResponseEntity.ok(TaskUtils.convertTasksToResponse(taskService.getTasksByStatus(status)));
     }
 
     @Operation(summary = "Get tasks by priority")
     @GetMapping("/read-by-priority/{priority}")
     public ResponseEntity<List<TaskResponse>> getTasksByStatus(@PathVariable TaskPriority priority) {
-        return ResponseEntity.ok(taskService.getTasksByPriority(priority));
+        return ResponseEntity.ok(TaskUtils.convertTasksToResponse(taskService.getTasksByPriority(priority)));
     }
 
 }

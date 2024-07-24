@@ -9,7 +9,7 @@ import java.util.List;
 @UtilityClass
 public class TaskUtils {
 
-    public static List<TaskResponse> convertTasks(List<Task> tasks) {
+    public static List<TaskResponse> convertTasksToResponse(List<Task> tasks) {
         return tasks.stream().map(TaskResponse::fromTask).toList();
     }
 

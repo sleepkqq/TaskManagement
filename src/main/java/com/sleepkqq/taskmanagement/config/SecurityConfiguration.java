@@ -67,6 +67,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/user/**").hasAuthority(Role.USER.name())
                         .requestMatchers("/task/create").hasAuthority(Role.ADMIN.name())
                         .requestMatchers("/task/**").hasAuthority(Role.USER.name())
+                        .requestMatchers("/chat/**").hasAuthority(Role.USER.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
