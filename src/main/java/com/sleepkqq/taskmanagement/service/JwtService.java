@@ -16,6 +16,8 @@ import static com.sleepkqq.taskmanagement.constants.SecurityProperties.BEARER_TY
 @Service
 public class JwtService {
 
+    // TODO: add refresh token
+
     @Value("${token.secret}")
     private String secret;
     @Value("${token.expiration-millis}")
