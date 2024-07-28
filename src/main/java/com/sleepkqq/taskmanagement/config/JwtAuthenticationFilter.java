@@ -2,6 +2,7 @@ package com.sleepkqq.taskmanagement.config;
 
 import com.sleepkqq.taskmanagement.service.JwtService;
 import com.sleepkqq.taskmanagement.service.UserService;
+import io.vertx.core.json.JsonObject;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,6 +20,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+import static com.sleepkqq.taskmanagement.constants.ExceptionResponseProperties.ERROR;
+import static com.sleepkqq.taskmanagement.constants.RestProperties.APPLICATION_JSON;
 import static com.sleepkqq.taskmanagement.constants.SecurityProperties.AUTHORIZATION_HEADER;
 import static com.sleepkqq.taskmanagement.constants.SecurityProperties.BEARER_PREFIX;
 
@@ -55,8 +58,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             log.error(e.getMessage());
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write("{\"error\": \"" + e.getMessage() + "\"}");
+            response.setContentType(APPLICATION_JSON);
+            response.getWriter().write(new JsonObject().put(ERROR, e.getMessage()).toString());
         }
     }
 
