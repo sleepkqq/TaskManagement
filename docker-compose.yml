@@ -5,7 +5,7 @@ services:
     image: postgres
     container_name: postgres
     user: root
-    restart: always
+    restart: no
     shm_size: 128mb
     environment:
       POSTGRES_USER: root
