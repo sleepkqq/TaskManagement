@@ -63,4 +63,11 @@ public class UserController {
         return ResponseEntity.ok(TaskUtils.convertTasksToResponse(userService.getUserReportedTasks(username)));
     }
 
+    @Operation(summary = "Add friendship between two users")
+    @PostMapping("/add-friendship")
+    public ResponseEntity<Void> addFriendship(@RequestParam String username1, @RequestParam String username2) {
+        userService.addFriendship(username1, username2);
+        return ResponseEntity.ok().build();
+    }
+
 }

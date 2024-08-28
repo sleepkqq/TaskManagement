@@ -77,4 +77,15 @@ public class UserService implements UserDetailsService {
         return loadUserByUsername(username).getReportedTasks();
     }
 
+    public void addFriendship(String username1, String username2) {
+        var user1 = loadUserByUsername(username1);
+        var user2 = loadUserByUsername(username2);
+
+        user1.getFriends().add(user2);
+        user2.getFriends().add(user1);
+
+        save(user1);
+        save(user2);
+    }
+
 }
